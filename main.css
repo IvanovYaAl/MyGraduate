@@ -1,0 +1,63 @@
+.x {
+    font-size: 24px;
+    padding: 0;
+    margin: 0;
+}
+
+.counter {
+    font-size: 10px;
+    padding: 0;
+    margin: 0;
+    font-family: arial,sans-serif;
+}
+
+.multiplying {
+    width: 15px;
+}
+
+.multi-element {
+    font-size: 12px;
+}
+
+.pow {
+    font-size: 12px;
+    width: 10px;
+    height: 10px;
+    position: relative;
+    top: -10px;
+
+}
+.cell {
+    width: 100px;
+    height: 30px;
+    padding: 0;
+    margin: 0;
+    display: inline-block;
+}
+.cells {
+    padding-top: 10px;
+}
+.cells-count {
+    width: 15px;
+}
+.plus {
+    padding-left: 6px;
+}
+.equal {
+    padding-left: 6px;
+}
+.y {
+    width: 24px;
+    height: 16px;
+}
+.population-max {
+    width: 15px;
+}
+.parents-max {
+    width: 15px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}

@@ -2,7 +2,7 @@
 import * as Asc from './AscFunc.js';
 const MaxPop = 5;                                       // Количество экземпляров в новом поколении
 const parents = 2;                                      // Количество родителей, который будут давать потомство
-const equation = { x1: 1, x2: 2, x3: 3, x4: 4, y:30 };  // Уравнение
+const equation = { x1: -70, x2: 1, x3: 3, x4: 4, y:-600 };  // Уравнение
 const numUnknowns = 4;                                  // Количество неизвестных в уравнении
 var pepl = [];
 for(var i = 0; i < MaxPop; i++)
@@ -14,10 +14,11 @@ console.log(pepl)
 var solEq = [];
 for (var i = 0; i<MaxPop; i++)
 {
-    solEq.push((equation.x1 * pepl[i][0])+(equation.x2 * (pepl[i][1]**2))+(equation.x3 * (pepl[i][2]**3))+(equation.x4 * (pepl[i][3]**4)));
+    //solEq.push((equation.x1 * pepl[i][0])+(equation.x2 * (pepl[i][1]**2))+(equation.x3 * (pepl[i][2]**3))+(equation.x4 * (pepl[i][3]**4)));
+    solEq.push((equation.x1 * pepl[i][0])+(equation.x2 * (pepl[i][0]**2))/*+(equation.x3 * (pepl[i][2]**3))+(equation.x4 * (pepl[i][3]**4))*/);
     solEq[i] = Math.abs(solEq[i] - equation.y);
 }
-var iterations = 1;
+var iterations = 0;
 while (!solEq.includes(0))
 {
     var peplsId = Asc.GetMinimalId(solEq, parents);
@@ -27,7 +28,8 @@ while (!solEq.includes(0))
     solEq = [];
     for (var i = 0; i<MaxPop; i++)
     {
-        solEq.push((equation.x1 * pepl[i][0])+(equation.x2 * pepl[i][1]**2)+(equation.x3 * pepl[i][2]**3)+(equation.x4 * pepl[i][3]**4));
+        //solEq.push((equation.x1 * pepl[i][0])+(equation.x2 * pepl[i][1]**2)+(equation.x3 * pepl[i][2]**3)+(equation.x4 * pepl[i][3]**4));
+        solEq.push((equation.x1 * pepl[i][0])+(equation.x2 * (pepl[i][0]**2))/*+(equation.x3 * (pepl[i][2]**3))+(equation.x4 * (pepl[i][3]**4))*/);
         solEq[i] = Math.abs(solEq[i] - equation.y);
     }
     console.log(iterations);
