@@ -33,8 +33,31 @@ function RandSumOrSub(number)
     var sumOrSub = Rand(0, 1);
     return (sumOrSub === 1) ? number + newRandX : number - newRandX;
 }
-
-function CreateNewPopulation(old, parentsId, MaxPop, numUnknowns) {
+function CreateNewPopulationCrossoverWithoutMutation(old, parentsId, MaxPop, numUnknowns) {
+    var newPop = [];
+    var countParents = parentsId.length;
+    var currentParent = 0;
+    var leftPart = 1;
+    for (var i = 0; i < MaxPop; i++) {
+        var newExample = [];
+        for (var j = 0; j < numUnknowns; j++) {
+            if (j === leftPart) {
+                currentParent += 1;
+            }
+            if (currentParent === countParents) {
+                currentParent = 0;
+            }
+            newExample.push(old[parentsId[currentParent]][j]);
+        }
+        newPop.push(newExample);
+        leftPart += 1;
+        if (leftPart === numUnknowns) {
+            leftPart = 1;
+        }
+    }
+    return newPop;
+}
+function CreateNewPopulationCrossoverWithMutationAllGenes(old, parentsId, MaxPop, numUnknowns) {
     var newPop = [];
     var countParents = parentsId.length;
     var currentParent = 0;
@@ -58,4 +81,32 @@ function CreateNewPopulation(old, parentsId, MaxPop, numUnknowns) {
     }
     return newPop;
 }
-export {Rand, GetMinimalId, RandSumOrSub, CreateNewPopulation};
+
+function CreateNewPopulationCrossoverWithMutationOneGene(old, parentsId, MaxPop, numUnknowns) {
+    var newPop = [];
+    var countParents = parentsId.length;
+    var currentParent = 0;
+    var leftPart = 1;
+    for (var i = 0; i < MaxPop; i++) {
+        var newExample = [];
+        for (var j = 0; j < numUnknowns; j++) {
+            if (j === leftPart) {
+                currentParent += 1;
+            }
+            if (currentParent === countParents) {
+                currentParent = 0;
+            }
+            newExample.push(old[parentsId[currentParent]][j]);
+        }
+        newPop.push(newExample);
+        leftPart += 1;
+        if (leftPart === numUnknowns) {
+            leftPart = 1;
+        }
+    }
+    for (var i = 0; i < MaxPop; i++) {
+        var randGene = Rand(0, numUnknowns - 1);
+        newPop[i][randGene] = RandSumOrSub(newPop[i][randGene]);
+    }
+    return newPop;
+}

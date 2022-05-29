@@ -3,15 +3,18 @@
     <head>
         <meta charset="utf-8">
         <link rel="stylesheet" href="main.css">
-        <script type="module" src="main.js"></script>
+        <!--<script type="module" src="main.js"></script> -->
+        <script language="JavaScript" type="text/javascript" src="AscFunc.js"></script>
         <script type="text/javascript" src="html.js"></script>
+        
     </head>
     <body>
-        <div class="main">
+        <div class="main" id="main">
             <div class="cells-count-div">
                 <span class="text-before-cells">Count of unknowns: </span>
                 <input type="number" class="cells-count" value="1" id="cells-count">
                 <button type="button" class="create-cell" onclick="CreateEquations()">Add equation</button>
+                <button type="button" class="fill-cells" onclick="FillCells()">Fill cells</button>
             </div>
             <div class="cells" id="cells">
                 <div class="cell">
@@ -19,6 +22,8 @@
                     <span class="multi-element">*</span>
                     <span class="x">x</span><span class="counter">1</span>
                     <input type="number" class="pow" value="1">
+                    <span>=</span>
+                    <input type=number value="1" class="y" id="y">
                 </div>
             </div>
             <div class="settings">
@@ -27,8 +32,17 @@
                 <span class="text-center">Parents can make children</span>
                 <input type="number" class="parents-max" value="1" id="parents-max">
             </div>
+            <div class="settings">
+                <select class="select-main" id="select-main">
+                    <option value="1">Crossover with mutations all genes</option>
+                    <option value="2">Crossover without mutations</option>
+                    <option value="3">Crossover with mutations only one gene</option>
+                </select>
+            </div>
             <div class="end">
                 <button class="get-result" onclick="Solve()">Solve!</button>
+                <!--<button class="next-population" onclick="Nextpopulation()">Next population</button>-->
+                <!--<span class="iterations" id="iterations">Population: 0</span>-->
             </div>
         </div>
     </body>
