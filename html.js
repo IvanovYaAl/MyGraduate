@@ -99,8 +99,8 @@ function Solve() {
             forCharts.push(tmp1);
             solEq[i] = Math.abs(solEq[i] - equalY);
         }
-        var iter = document.getElementById("iterations").innerHTML;
-        iter = 'Population: ' + iterations;
+        /*forvar iter = document.getElementById("iterations").innerHTML;
+        iter = 'Population: ' + iterations;*/
         console.log(iterations);
         /*var isEnd = confirm("Next population?");
         if (isEnd === false) {
