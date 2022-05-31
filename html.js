@@ -44,8 +44,8 @@ function Nextpopulation() {
 
 function Solve() {
     const MaxIterations = 100000;
-    const MaxPop = document.getElementById("population-max").value;
-    const parents = document.getElementById("parents-max").value;
+    const MaxPop = Number(document.getElementById("population-max").value);
+    const parents = Number(document.getElementById("parents-max").value);
     const type = Number(document.getElementById("select-main").value);
     var str = document.getElementsByClassName("cell");
     var arrMultiplier = document.getElementsByClassName("multiplying");
@@ -55,7 +55,11 @@ function Solve() {
     // Создаём первое поколение
     var pepl = [];
     for(var i = 0; i < MaxPop; i++) {
-        pepl.push([Rand(1, 30), Rand(1, 30), Rand(1, 30), Rand(1, 30)]);
+        var pop = [];
+        for (var j = 0; j < str.length - 1; j++) {
+            pop.push(Rand(1, 10));
+        }
+        pepl.push(pop);
     }
 
     // Находим значения первого поколения
@@ -71,13 +75,22 @@ function Solve() {
         solEq[i] = Math.abs(solEq[i] - equalY);
     }
     CreateChart(solEq, equalY);
+    var setti = {
+        mul: arrMultiplier,
+        pow: arrPows,
+        count: str.length - 1, 
+        y: equalY
+    }
     var iterations = 0;
+    var copeSolEq = solEq.slice().sort(function(a,b){ 
+        return a - b
+      });
     while (!solEq.includes(0)) {
         var pepId = GetMinimalId(solEq, parents);
         var newPepl = [];
         switch(type) {
             case 1:
-                newPepl = CreateNewPopulationCrossoverWithMutationAllGenes(pepl, pepId, MaxPop, str.length - 1);
+                newPepl = CreateNewPopulationCrossoverWithMutationAllGenes(pepl, pepId, MaxPop, str.length - 1, copeSolEq[0], setti);
                 break;
             case 2:
                 newPepl = CreateNewPopulationCrossoverWithoutMutation(pepl, pepId, MaxPop, str.length - 1);
@@ -91,22 +104,15 @@ function Solve() {
         solEq = [];
         forCharts = [];
         for (var i = 0; i < MaxPop; i++) {
-            var tmp1 = 0;
-            for (var j = 0; j < str.length - 1; j++) {
-                tmp1 += Number(arrMultiplier[j].value) * Math.pow(pepl[i][j], Number(arrPows[j].value)); 
-            }
+            var tmp1 = FindFitness(arrMultiplier, arrPows, pepl[i], str.length - 1, equalY);
             solEq.push(tmp1);
             forCharts.push(tmp1);
-            solEq[i] = Math.abs(solEq[i] - equalY);
+            //solEq[i] = Math.abs(solEq[i] - equalY);
         }
-        /*forvar iter = document.getElementById("iterations").innerHTML;
-        iter = 'Population: ' + iterations;*/
+        copeSolEq = solEq.slice().sort(function(a,b){ 
+            return a - b
+          });
         console.log(iterations);
-        /*var isEnd = confirm("Next population?");
-        if (isEnd === false) {
-            alert("Equation was't solved")
-            break;
-        }*/
         CreateChart(solEq, equalY);
         if (iterations >= MaxIterations) {
             break;
@@ -127,7 +133,7 @@ function Solve() {
         var main = document.getElementById("main");
         main.append(result);         
     } else {
-        alert('Нет решения в целых числах!')
+        alert('Нет решения в целых числах и/или превышено 100,000 поколений!')
     }
 }
 function CreateChart (population, main) {
