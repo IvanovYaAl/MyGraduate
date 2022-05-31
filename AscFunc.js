@@ -57,7 +57,7 @@ function CreateNewPopulationCrossoverWithoutMutation(old, parentsId, MaxPop, num
     }
     return newPop;
 }
-function CreateNewPopulationCrossoverWithMutationAllGenes(old, parentsId, MaxPop, numUnknowns) {
+function CreateNewPopulationCrossoverWithMutationAllGenes(old, parentsId, MaxPop, numUnknowns, copy, setti) {
     var newPop = [];
     var countParents = parentsId.length;
     var currentParent = 0;
@@ -73,10 +73,15 @@ function CreateNewPopulationCrossoverWithMutationAllGenes(old, parentsId, MaxPop
             }
             newExample.push(RandSumOrSub(old[parentsId[currentParent]][j]));
         }
-        newPop.push(newExample);
-        leftPart += 1;
-        if (leftPart === numUnknowns) {
-            leftPart = 1;
+        var el = FindFitness(setti.mul, setti.pow, newExample, setti.count, setti.y);
+        if (el < copy) {
+            newPop.push(newExample);
+            leftPart += 1;
+            if (leftPart === numUnknowns) {
+                leftPart = 1;
+            }
+        } else {
+            i -= 1;
         }
     }
     return newPop;
@@ -109,4 +114,12 @@ function CreateNewPopulationCrossoverWithMutationOneGene(old, parentsId, MaxPop,
         newPop[i][randGene] = RandSumOrSub(newPop[i][randGene]);
     }
     return newPop;
+}
+
+function FindFitness(Multi, Pows, Arr, Length, Y) {
+    var tmp = 0;
+    for (var i = 0; i < Length; i++) {
+        tmp += Number(Multi[i].value) * Math.pow(Arr[i], Number(Pows[i].value));
+    }
+    return Math.abs(tmp - Y);
 }
